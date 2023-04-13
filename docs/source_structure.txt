@@ -1,0 +1,4 @@
+That is, the root of a source directory may contain non-source-code files, but no child directories should.
+
+ncurses/stdscr/ contains a few folders that run different game loop, respectively for starges. Start, gaming, end
+    In pause directory, it accepts quiting the game input
