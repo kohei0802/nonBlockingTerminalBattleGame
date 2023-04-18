@@ -3,6 +3,8 @@
 //--------------------------------------------
 #include <stdio.h>
 #include <ncurses.h>
+#include "./gameutil/movingobject/mobj.h"
+#include "./gameutil/collision/collision.h"
 
 //-------------------------------------------
 //  Macros definition

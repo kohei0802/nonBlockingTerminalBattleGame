@@ -16,6 +16,8 @@
 //  Para :  void
 //  return :    Normal(0)/ERROR(1)
 //------------------------------------
+extern int mapgame(void);
+
 int dreamwalk(void) {
     /* game mode : mapgame(0)/fight(1)/quit(2) */
     int mode = 1;
