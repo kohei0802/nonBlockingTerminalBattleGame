@@ -3,7 +3,7 @@
 //------------------------------
 // internal Macros definition
 //------------------------------
-#define DEBUGON
+//#define DEBUGON
 
 //------------------------------
 //  Static functions
@@ -83,6 +83,7 @@ void chkHit(Player* player, Enemy enemies[], int len_en) {
         cfac2 = {obj2.px, obj2.py, obj2.vx, obj2.vy, obj2.sx, obj2.sy};
         if (chkHit(cfac1, cfac2)) {
             enemies[i].obj.life = 0;
+            (player->obj).life--;
         }
     }
     return ;

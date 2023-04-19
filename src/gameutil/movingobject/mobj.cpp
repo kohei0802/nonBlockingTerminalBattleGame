@@ -3,7 +3,7 @@
 //--------------------------------
 //  internal Macros definition
 //--------------------------------
-#define DEBUGON
+//#define DEBUGM
 
 #define MAX_EN 15
 #define MAX_BU 15
@@ -22,8 +22,8 @@ static void drawBu(Bullet *p_bu);
 static void drawPl(Player *p_pl);
 
 /*draw list of mobj */
-static void drawEnemies(Enemy *p_en);
-static void drawBullets(Bullet *p_bu);
+static void drawEnemies(Enemy *p_en, int len_en);
+static void drawBullets(Bullet *p_bu, int len_bu);
 
 /*move individual of mobj */ 
 static void moveEn(Enemy* p_en);
@@ -31,8 +31,8 @@ static void moveBu(Bullet* p_bu);
 static void movePl(Player* p_pl);
 
 /*move list of mobj*/
-static void moveEnemies(Enemy *p_en);
-static void moveBullets(Bullet *p_bu);
+static void moveEnemies(Enemy *p_en, int len_en);
+static void moveBullets(Bullet *p_bu, int len_bu);
 
 
 //--------------------------------
@@ -41,13 +41,13 @@ static void moveBullets(Bullet *p_bu);
 //  return :    void
 //-----------------------------------
 void drawMobj(Enemy* p_en, int len_en, Bullet* p_bu, int len_bu, Player* p_pl) {
-#ifdef DEBUGON
+#ifdef DEBUGM
     printf("Enter drawing everything\n");
 #endif
-    drawBullets(p_bu);
-    drawEnemies(p_en);
+    drawBullets(p_bu, len_en);
+    drawEnemies(p_en, len_bu);
     drawPl(p_pl);
-#ifdef DEBUGON
+#ifdef DEBUGM
     printf("finished drawing everything\n");
 #endif
     return ;
@@ -60,125 +60,182 @@ void drawMobj(Enemy* p_en, int len_en, Bullet* p_bu, int len_bu, Player* p_pl) {
 //  return :    void
 //-----------------------------------
 void moveMobj(Enemy* p_en, int len_en, Bullet* p_bu, int len_bu, Player* p_pl) {
-#ifdef DEBUGON
+#ifdef DEBUGM
     printf("Enter moving everything\n");
 #endif
-    moveBullets(p_bu);
-    moveEnemies(p_en);
+    moveBullets(p_bu, len_bu);
+    moveEnemies(p_en, len_en);
     movePl(p_pl);
     return ;
-#ifdef DEBUGON
+#ifdef DEBUGM
     printf("Finished moving everything\n");
 #endif
 }
 
+
+//-----------------------------------------
+//  Def : Static Functions for drawing Mobj
+//-----------------------------------------
 /*draw individual mobj */
 static void drawEn(Enemy *p_en) {
-#ifdef DEBUGON
+#ifdef DEBUGM
     printf("Enter drawing individual en\n");
 #endif
+    (p_en->draw)((p_en->obj).px, (p_en->obj).py);
 
-#ifdef DEBUGON
+#ifdef DEBUGM
     printf("Finished drawing individual en\n");
 #endif
 }
 static void drawBu(Bullet *p_bu) {
-#ifdef DEBUGON
+#ifdef DEBUGM
     printf("Start drawing individual bu\n");
 #endif
+    (p_bu->draw)((p_bu->obj).px, (p_bu->obj).py);
 
-#ifdef DEBUGON
+#ifdef DEBUGM
     printf("Finished drawing individual bu\n");
 #endif
 }
 static void drawPl(Player *p_pl) {
-#ifdef DEBUGON
+#ifdef DEBUGM
     printf(" drawing individual pl\n");
 #endif
+    if ((p_pl->obj).life <= 0) {
+        (p_pl->draw)((p_pl->obj).px, (p_pl->obj).py);
+    }
 
-#ifdef DEBUGON
+#ifdef DEBUGM
     printf("Finished drawing individual pl\n");
 #endif
 }
 
 /*draw list of mobj */
-static void drawEnemies(Enemy *p_en) {
-#ifdef DEBUGON
+static void drawEnemies(Enemy *p_en, int len_en) {
+#ifdef DEBUGM
     printf(" sta draw all en\n");
 #endif
 
-    drawEn(p_en);
+    for (int i=0; i<len_en; i++) {
+        if ( ((p_en+i)->obj).life != 1 )
+            continue;
+        drawEn(p_en+i);
+    }
 
-#ifdef DEBUGON
+#ifdef DEBUGM
     printf(" fin draw all en\n");
 #endif
 
 }
-static void drawBullets(Bullet *p_bu) {
-#ifdef DEBUGON
+static void drawBullets(Bullet *p_bu, int len_bu) {
+#ifdef DEBUGM
     printf(" sta draw all bu\n");
 #endif
-    drawBu(p_bu);
+    for (int i=0; i<len_bu; i++) {
+        if ( ((p_bu+i)->obj).life !=1 ) {
+            continue;
 
-#ifdef DEBUGON
+        }
+        drawBu(p_bu+i);
+    }
+
+#ifdef DEBUGM
     printf(" fin draw all bu\n");
 #endif
 
 }
 
+//---------------------------------------------------
+
+
+
+//----------------------------
+// Def : Static Functions for Moving objects
+// --------------------------------------
 /*move individual of mobj */ 
 static void moveEn(Enemy* p_en) {
-#ifdef DEBUGON
+#ifdef DEBUGM
     printf(" sta move a en\n");
 #endif
+    (p_en->obj).px = (p_en->obj).vx;
+    (p_en->obj).py = (p_en->obj).vy;
 
-#ifdef DEBUGON
+#ifdef DEBUGM
     printf(" fin move a en\n");
 #endif
 
 }
 static void moveBu(Bullet* p_bu) {
-#ifdef DEBUGON
+#ifdef DEBUGM
     printf(" start move a bu\n");
 #endif
 
-#ifdef DEBUGON
+    (p_bu->obj).px = (p_bu->obj).vx;
+    (p_bu->obj).py = (p_bu->obj).vy;
+
+#ifdef DEBUGM
     printf(" fin move a bu\n");
 #endif
 
 }
 static void movePl(Player* p_pl) {
-#ifdef DEBUGON
+#ifdef DEBUGM
     printf(" start move a pl\n");
 #endif
 
-#ifdef DEBUGON
+    /* player freezes if life <= 0  */
+        ( p_pl->obj ).px += ( p_pl->obj ).vx;
+        ( p_pl->obj ).py += ( p_pl->obj ).vy;
+
+#ifdef DEBUGM
     printf(" fin move a pl\n");
 #endif
 
 }
 
 /*move list of mobj*/
-static void moveEnemies(Enemy *p_en) {
-#ifdef DEBUGON
+static void moveEnemies(Enemy *p_en, int len_en) {
+#ifdef DEBUGM
     printf(" start move all en\n");
+    printf("%d\n", ((p_en)->obj).life);
 #endif
 
-    moveEn(p_en);
+    for (int i=0; i<len_en; i++) {
+        if (  ( (p_en+i)->obj  ).life  <=   0 ) {
+            continue; 
 
-#ifdef DEBUGON
+        }
+
+        /* pass on address of the ith Enemy counted from index 0 */
+        moveEn(p_en+i);
+    }
+
+
+#ifdef DEBUGM
     printf(" fin move all en\n");
 #endif
-
 }
-static void moveBullets(Bullet *p_bu) {
-#ifdef DEBUGON
-    printf(" start move all bullets\n");
-#endif
-    moveBu(p_bu);
 
-#ifdef DEBUGON
+static void moveBullets(Bullet *p_bu, int len_bu) {
+#ifdef DEBUGM
+    printf(" start move all bullets\n");
+    printf("%d\n", ((p_bu)->obj).life);
+#endif
+
+    for (int i=0; i<len_bu; i++) {
+        if (  (  (p_bu+i)->obj ).life   <=  0 ) {
+            continue;
+
+        }
+
+        /*pass on address on the ith bullets counted form index 0 */
+        moveBu(p_bu+i);
+    }
+
+#ifdef DEBUGM
     printf(" fin move all bullets \n");
 #endif
 
 }
+
+//------------------------------------------------

@@ -3,7 +3,7 @@
 //---------------------------------------
 //  Internal Macros definition
 //------------------------------------
-#define DEBUGON
+//#define DEBUGON
 
 
 //--------------------------------------
@@ -34,6 +34,8 @@ int dreamwalk(void) {
         }
     }
     printf("dreamwalk exit normally\n");
+
+    endwin();
     
     return 0;
 }

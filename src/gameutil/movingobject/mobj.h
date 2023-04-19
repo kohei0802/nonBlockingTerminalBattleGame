@@ -33,17 +33,17 @@ struct Mobj {
 
 struct Enemy {
     Mobj obj;
-    void *draw (double px, double py); 
+    void (*draw) (double px, double py); 
 };
 
 struct Bullet {
     Mobj obj;
-    void *draw (double px, double py);
+    void (*draw) (double px, double py);
 };
 
 struct Player {
     Mobj obj;
-    void *draw (double px, double py);
+    void (*draw) (double px, double py);
 };
 
 //--------------------------------

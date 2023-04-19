@@ -2,18 +2,18 @@
 # 	Execute the following command in src directory:
 # 	make -f ../tools/Makefile
 #------------------------------
-CFLGAS = -pedantic-errors -std=c++11 -lncurses
+CFLAGS=-pedantic-errors -std=c++11 -lncurses
 PATH_MOB = ./gameutil/movingobject
 PATH_COL = ./gameutil/collision
-OBJ = main.o dreamwalk.o fight.o mapgame.o mobj.o collision.o
+OBJ = main.o dreamwalk.o fight.o mapgame.o mobj.o collision.o support.o
 COMP = g++
 
 all: 	main
 
 main: 	$(OBJ)
-	$(COMP) $(CFLAGS) $(OBJ) -o main
+	$(COMP) $(OBJ) $(CFLAGS) -o main
 
-main.o : 	main.cpp dreamwalk.h fight.h mapgame.h $(PATH_MOB)/mobj.h $(PATH_COL)/collision.h
+main.o : 	main.cpp dreamwalk.h fight.h mapgame.h $(PATH_MOB)/mobj.h $(PATH_COL)/collision.h support.o
 	g++ $(CFLAGS) -c main.cpp
 
 dreamwalk.o : 	dreamwalk.cpp dreamwalk.h fight.h mapgame.h $(PATH_MOB)/mobj.h $(PATH_COL)/collision.h
@@ -30,6 +30,9 @@ mobj.o : 	$(PATH_MOB)/mobj.cpp $(PATH_MOB)/mobj.h $(PATH_COL)/collision.h
 
 collision.o : 	$(PATH_COL)/collision.cpp $(PATH_COL)/collision.h $(PATH_MOB)/mobj.h
 	g++ $(CFLAGS) -c $(PATH_COL)/collision.cpp
+
+support.o : 	support.cpp support.h	
+	g++ $(CFLAGS) -c support.cpp 
 
 clean:
 	rm -rf *.o main

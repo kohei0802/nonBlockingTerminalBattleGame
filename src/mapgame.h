@@ -2,7 +2,7 @@
 #define MAPGAME_H
 //---------------------------------
 #include <stdio.h>
-#include <ncurses.h>
+//#include <ncurses.h>
 
 //--------------------------------
 //  Macros Definition
