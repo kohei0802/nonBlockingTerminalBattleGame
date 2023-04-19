@@ -17,15 +17,14 @@
 struct ColFactor {
     double px, py, vx, vy, sx, sy;
 };
-
 //----------------------------
 //  Prototype declaration
 //----------------------------
 
 /* check if it is GOING to collide at the wall */
 int chkWall(Player* player, int ymax, int xmax);
-int chkWall(Enemy* enemy, int ymax, int xmax);
-int chkWall(Bullet* bullet, int ymax, int xmax);
+int chkWall(Enemy* enemies, int len_en, int ymax, int xmax);
+int chkWall(Bullet* bullets, int len_bu, int ymax, int xmax);
 
 /* check if it's hitting */
 void chkHit(Player* player, Enemy enemies[], int len_en);

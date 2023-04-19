@@ -3,6 +3,7 @@
 //------------------------------
 // internal Macros definition
 //------------------------------
+#define DEBUGON
 
 //------------------------------
 //  Static functions
@@ -22,19 +23,41 @@ static int chkHit(ColFactor cfac1, ColFactor cfac2);
 int chkWall(Player* player, int ymax, int xmax) {
     Mobj obj = player->obj;
     ColFactor cfac = {obj.px, obj.py, obj.vx, obj.vy, obj.sx, obj.sy};
-    return chkWall(cfac, ymax, xmax);
-}
-int chkWall(Enemy* enemy, int ymax, int xmax) {
-    Mobj obj = enemy->obj;
-    ColFactor cfac = {obj.px, obj.py, obj.vx, obj.vy, obj.sx, obj.sy}; 
-    return chkWall(cfac, ymax, xmax);
-}
-int chkWall(Bullet* bullet, int ymax, int xmax) {
-    Mobj obj = bullet->obj;
-    ColFactor cfac = {obj.px, obj.py, obj.vx, obj.vy, obj.sx, obj.sy}; 
-    return chkWall(cfac, ymax, xmax);
+    /* decrement life */
+    if (chkWall(cfac, ymax, xmax)) {
+        (player->obj).life--;
+    }
+    return 0;
 }
 
+/* process a list of enemies */
+int chkWall(Enemy* enemies, int len_en, int ymax, int xmax) {
+    Mobj obj;
+    for (int i=0; i<len_en; i++) {
+        obj= (enemies+i)->obj;
+        ColFactor cfac = {obj.px, obj.py, obj.vx, obj.vy, obj.sx, obj.sy}; 
+        if (chkWall(cfac, ymax, xmax)) {
+            ((enemies+i) -> obj).life = 0;
+        }
+    }
+
+    return 0;
+}
+
+/* process a list of bullets */
+int chkWall(Bullet* bullets, int len_bu, int ymax, int xmax) {
+    Mobj obj;
+    for (int i=0; i<len_bu; i++) {
+        obj = (bullets+i)->obj;
+        ColFactor cfac = {obj.px, obj.py, obj.vx, obj.vy, obj.sx, obj.sy}; 
+        if (chkWall(cfac, ymax, xmax)) {
+            ((bullets+i)->obj).life = 0;
+        }
+    }
+    return 0;
+}
+
+/* determine collision between wall and Mobj */
 static int chkWall(ColFactor cfac, int ymax, int xmax) {
     double x = cfac.px + cfac.vx;
     double y = cfac.py + cfac.vy;

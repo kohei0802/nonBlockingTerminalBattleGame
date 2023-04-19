@@ -16,19 +16,19 @@ main: 	$(OBJ)
 main.o : 	main.cpp dreamwalk.h fight.h mapgame.h $(PATH_MOB)/mobj.h $(PATH_COL)/collision.h
 	g++ $(CFLAGS) -c main.cpp
 
-dreamwalk.o : 	dreamwalk.cpp dreamwalk.h fight.h mapgame.h $(PATH_MOB)/mobj.h
+dreamwalk.o : 	dreamwalk.cpp dreamwalk.h fight.h mapgame.h $(PATH_MOB)/mobj.h $(PATH_COL)/collision.h
 	g++ $(CFLAGS) -c dreamwalk.cpp
 
-fight.o : 	fight.cpp fight.h $(PATH_MOB)/mobj.h
+fight.o : 	fight.cpp fight.h $(PATH_MOB)/mobj.h $(PATH_COL)/collision.h
 	g++ $(CFLAGS) -c fight.cpp
 
 mapgame.o : 	mapgame.cpp mapgame.h
 	g++ $(CFLAGS) -c mapgame.cpp
 
-mobj.o : 	$(PATH_MOB)/mobj.cpp $(PATH_MOB)/mobj.h 
+mobj.o : 	$(PATH_MOB)/mobj.cpp $(PATH_MOB)/mobj.h $(PATH_COL)/collision.h
 	g++ $(CFLAGS) -c $(PATH_MOB)/mobj.cpp
 
-collision.o : 	$(PATH_COL)/collision.cpp $(PATH_COL)/collision.h
+collision.o : 	$(PATH_COL)/collision.cpp $(PATH_COL)/collision.h $(PATH_MOB)/mobj.h
 	g++ $(CFLAGS) -c $(PATH_COL)/collision.cpp
 
 clean:

@@ -122,6 +122,12 @@ int fight(void) {
         /* checkhit */
         chkHit(&player, enemies, MAX_EN);
         chkHit(enemies, MAX_EN, bullets, MAX_BU);
+        
+        /* checkwall */
+        chkWall(&player, ymax, xmax);
+        chkWall(enemies, ymax, xmax);
+        chkWall(bullets, ymax, xmax);
+
         /* move */
         moveMobj(enemies, MAX_EN, bullets, MAX_BU, &player);
 #endif

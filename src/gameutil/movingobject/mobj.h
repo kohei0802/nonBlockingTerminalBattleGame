@@ -1,3 +1,14 @@
+//------------------------------------------------------------
+// collision.h declaration depends on mobj.h
+// if I do not put include here. 
+// because of #ifndef MOBJ_H #define MOBJ_H
+// when collision.h is copy and paste, the definition of Player
+// cannot come infront of the prototype declaration.
+// This generates the error "Player was not declared in this scope"
+//---------------------------------------------------------------
+//#include "../collision/collision.h"
+
+
 #ifndef MOBJ_H
 #define MOBJ_H
 //---------------------------------
@@ -43,4 +54,6 @@ void drawMobj(Enemy* enemy, int enlen, Bullet* bullet, int bulen, Player *player
 void moveMobj(Enemy* enemy, int enlen, Bullet* bullet, int bulen, Player *player);
 
 //--------------------------------
+
+
 #endif
