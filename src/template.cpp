@@ -1,6 +1,6 @@
+//gaming in 160*50
 #include "gameutil.h"
 using namespace std;
-
 
 //initialize player's position
 static void init_item_params(ITEM *p_win);
@@ -52,7 +52,7 @@ static void npc1_action(int &HP, int &Coins, WIN *win)
 			sleep(2.5);
 			attron(COLOR_PAIR(4));
 			mvprintw(win->starty + win->height + 7,win->startx,"Nothing happened...");
-			attroff(COLOR_PAIR(4));
+			attron(COLOR_PAIR(4));
 			refresh();
 			sleep(2.5);
 		}
@@ -70,7 +70,7 @@ static void npc1_action(int &HP, int &Coins, WIN *win)
 				sleep(2.5);
 				attron(COLOR_PAIR(4));
 				mvprintw(win->starty + win->height + 7,win->startx,"Toxic!!! HP - 15, Coins - 20...");
-				attroff(COLOR_PAIR(4));
+				attron(COLOR_PAIR(4));
 				refresh();
 				sleep(2.5);
 			}
@@ -81,7 +81,7 @@ static void npc1_action(int &HP, int &Coins, WIN *win)
 				sleep(2.5);
 				attron(COLOR_PAIR(4));
 				mvprintw(win->starty + win->height + 7,win->startx,"Healing!!! HP + 10, Coins - 20...");
-				attroff(COLOR_PAIR(4));
+				attron(COLOR_PAIR(4));
 				refresh();
 				sleep(2.5);
 			}
@@ -93,11 +93,10 @@ static void npc1_action(int &HP, int &Coins, WIN *win)
 		sleep(2.5);
 		attron(COLOR_PAIR(4));
 		mvprintw(win->starty + win->height + 6,win->startx,"Nothing happened...");
-		attroff(COLOR_PAIR(4));
+		attron(COLOR_PAIR(4));
 		refresh();
 		sleep(2.5);
 	}
-    clear();
 }
 
 static void treasure_action(bool &is_weapon,WIN *win)
@@ -122,7 +121,6 @@ static void treasure_action(bool &is_weapon,WIN *win)
 		is_weapon = true;
 	}
 	sleep(2.5);
-    clear();
 }
 
 static void npc2_action(bool &is_flash,WIN *win,int &Coins)
@@ -134,10 +132,9 @@ static void npc2_action(bool &is_flash,WIN *win,int &Coins)
 		sleep(2.5);
 		attron(COLOR_PAIR(4));
 		mvprintw(win->starty + win->height + 3,win->startx,"Nothing happened...");
-		attroff(COLOR_PAIR(4));
+		attron(COLOR_PAIR(4));
 		refresh();
 		sleep(2.5);
-        clear();
 		return;
 	}
 
@@ -161,7 +158,7 @@ static void npc2_action(bool &is_flash,WIN *win,int &Coins)
 			sleep(2.5);
 			attron(COLOR_PAIR(4));
 			mvprintw(win->starty + win->height + 6,win->startx,"Nothing happened...");
-			attroff(COLOR_PAIR(4));
+			attron(COLOR_PAIR(4));
 			refresh();
 			sleep(2.5);
 		}
@@ -172,7 +169,7 @@ static void npc2_action(bool &is_flash,WIN *win,int &Coins)
 			sleep(2.5);
 			attron(COLOR_PAIR(4));
 			mvprintw(win->starty + win->height + 5,win->startx,"Achievement in flash!!! press 'f' before movement to get flash...");
-			attroff(COLOR_PAIR(4));
+			attron(COLOR_PAIR(4));
 			refresh();
 			is_flash = true;
 			sleep(2.5);
@@ -184,11 +181,10 @@ static void npc2_action(bool &is_flash,WIN *win,int &Coins)
 		sleep(2.5);
 		attron(COLOR_PAIR(4));
 		mvprintw(win->starty + win->height + 5,win->startx,"Nothing happened...");
-		attroff(COLOR_PAIR(4));
+		attron(COLOR_PAIR(4));
 		refresh();
 		sleep(2.5);
 	}
-    clear();
 }
 //enter boss room
 static int boss_action(int &HP, bool is_flash)
@@ -205,7 +201,7 @@ static int boss_action(int &HP, bool is_flash)
 	Boss boss1;
 	bool is_boss1 = true;
 	bool is_boss2 = true;
-	int boss_HP = 800;
+	int boss_HP = 1000;
 	int wave_weapon = 0;
 	int count = 0;
 	int dot_x = 0;
@@ -498,7 +494,7 @@ static int boss_action(int &HP, bool is_flash)
 			create_boss(&win,false,&item,is_item,&boss1,is_boss1,wave_weapon,HP,boss_HP,&spine_down,&spine_up,&spine_left,&spine_right);
 			create_boss(&win,true,&item,is_item,&boss1,is_boss1,wave_weapon,HP,boss_HP,&spine_down,&spine_up,&spine_left,&spine_right);
 		}
-		if(boss_HP <= 0){
+		if(boss_HP == 0){
 			res = 1;
 			break;
 		}
@@ -508,7 +504,6 @@ static int boss_action(int &HP, bool is_flash)
 		}
 		usleep(10000);
 	}
-    sleep(2.0);
 	return res;
 }
 //print boss room
@@ -672,133 +667,21 @@ static void create_boss(WIN *p_win,bool flag,ITEM *item,bool is_item,Boss *boss1
 	refresh();
 }
 
-int Title() {
-    int  h, w, key;
- 
-    getmaxyx(stdscr, h, w);
 
-    erase();
-    attrset(0);
-    init_pair(12, COLOR_RED, COLOR_RED);
-    init_pair(13, COLOR_GREEN, COLOR_BLACK);
-    attron(COLOR_PAIR(12));
-    vector<string> titlename = {
-    "#   ### #  # #### ###  ###   ###  #   #  # ", 
-    "#   # # #  # #    #  # #  #  #   # # # ## #", 
-    "#   # # ## # # ## #  # ###   ### ### #    #",
-    "#   # # # ## #  # #  # #  #  #   # # #    #",
-    "### ### #  # #### ###  #   # ### # # #    #",
-    };
-    
-    int r = h/2-9, c = (w-43)/2;
-    for (int i=0; i<5; i++) {
-        for (int j=0; j<43; j++) {
-            char tmp  = titlename[i][j]; 
-            if (tmp == ' ') {
-                mvaddch(r, c, tmp);
-            }
-            else {
-                attron(COLOR_PAIR(12));
-                mvaddch(r, c, tmp);
-                attroff(COLOR_PAIR(12));
-            }
-            c++;
-        }
-        c = (w-43)/2;
-        r++;
-    }
-
-    attrset(A_BOLD);
-    attron(COLOR_PAIR(13));
-	mvprintw(h/2 - 2, w/2 - 14,"[Q/q] Quit the game");
-	mvprintw(h/2 - 1, w/2 - 14,"[Space] Start the game!!!");
-    mvprintw(h/2 - 0, w/2 - 14,"[R/r] Resume the game");
-    attroff(COLOR_PAIR(13));
-
-
-timeout(-1);
-move(0, 0);
-key = getch();
-return (key);
-}
-
-int main(int argc, char *argv[]) {	
-    InitRand();
-
-    WIN win;
+int main4(void)
+{	WIN win;
 	ITEM item;
 	NPC1 npc1;
 	NPC2 npc2;
 	Treas treas;
 	int ch;
 
-	initscr();			/* Start curses mode 		*/
 	start_color();			/* Start the color functionality */
 	cbreak();			/* Line buffering disabled, Pass on
 					 * everty thing to me 		*/
 	keypad(stdscr, TRUE);		/* I need that nifty F1 	*/
 	noecho();
 	init_pair(1, COLOR_CYAN, COLOR_BLACK);
-
-	int HP = 100;
-	int Coins = 100;
-    bool next_stage = false;
-	bool is_weapon = false;
-	bool is_flash = false;
-    bool is_upgrade = false;
-	int res = 0;
-
-    while (true) {
-        int title = Title();
-        timeout(0);
-        if (title == 'q' || title == 'Q')  {
-            endwin();
-            system("clear");
-            printf("terminated\n");
-            exit(0);
-        }
-
-        //if (title == 's' or title == 'S') setting();
-        //if (title == 'd' or title == 'D') guide();
-        if (title == ' ') {
-            clear();
-            break;
-        }
-        
-        if (title == 'R' || title == 'r') {
-            ifstream fin;
-            fin.open("status.txt");
-            if (fin.fail()) {
-                endwin();
-                system("clear");
-                printf("Failed to load previous record\n");
-                exit(0);
-            }
-            else {
-                int tmp; fin>>tmp;
-                if (!tmp) {
-                    endwin();
-                    system("clear");
-                    printf("Failed to load previous record\n");
-                    exit(0);
-                }
-                string input;
-                fin >> HP >> Coins;
-                fin >> input;
-                next_stage = (input=="true") ? true : false;
-                fin>>input;
-                is_weapon = (input=="true") ? true : false;
-                fin>>input;
-                is_flash = (input=="true") ? true : false;
-                fin>>input;
-                is_upgrade = (input=="true") ? true : false;
-            }
-            fin.close();
-            break;
-        }
-    }
-    // Clear the title page
-    clear();
 
 	/* Initialize the boundary and player parameters and npc1 parameters*/
 	init_win_params(&win);
@@ -807,49 +690,23 @@ int main(int argc, char *argv[]) {
 	init_npc2_params(&npc2);
 	init_treas_params(&treas);
 	attron(COLOR_PAIR(1));
-	printw("Press 'q' to exit      Press [Space] to enter pause\n");
+    
+    mvhline(0, 0, ' ', 100);
+	printw("STAGE 4 !!!!!!!!");
 	
 	refresh();
 	attroff(COLOR_PAIR(1));
+
+	int HP = 100;
+	int Coins = 100;
+	bool is_weapon = false;
+	bool is_flash = false;
+	int res = 0;
 
 	create_box(&win,TRUE,&item,&npc1,&npc2,&treas,Coins,HP,is_weapon);
 
 	while((ch = getch()) != 'q')
 	{	
-        if (next_stage) {
-            clear();
-            main2(is_weapon, is_flash, is_upgrade, HP, Coins);
-            clear();
-			create_box(&win,FALSE,&item,&npc1,&npc2,&treas,Coins,HP,is_weapon);
-        }
-
-        if (ch == ' ') {
-            int input;
-            clean_box(&win);
-            while (true) {
-                /* [1]Resume [2]Save [3]Quit */
-                input = menu(win.startx, win.starty);
-                if (input=='1') break;
-                if (input=='2') {
-                    if (save(HP, Coins, next_stage, is_weapon, is_flash, is_upgrade)) {
-                        /*Successfully saved */
-                        mvprintw(win.starty+win.height/2, win.startx+win.width/2, "Successful save");
-                    }
-                    else {
-                        mvprintw(win.starty+win.height/2, win.startx+win.width/2, "Failed to save");
-                    }
-                }
-                if (input=='3') {
-                    endwin();
-                    system("clear");
-                    printf("Exited game\n");
-                    exit(0);
-                }
-            }
-            clean_box(&win);
-			create_box(&win,TRUE,&item,&npc1,&npc2,&treas,Coins,HP,is_weapon);
-        }
-
 		if(ch == 'f'){
 			ch = getch();
 			while(ch != KEY_LEFT and ch != KEY_RIGHT and ch != KEY_UP and ch != KEY_DOWN){
@@ -921,72 +778,55 @@ int main(int argc, char *argv[]) {
 		}
 		//npc1 event
 		if(item.starty == npc1.starty+1 and item.startx == npc1.startx+10){
-            static double old = 0.0;
-            double cur = getime();
-            if (cur - old > 2.5) {
-			    npc1_action(HP,Coins,&win);
-                old = getime();
-	            create_box(&win,TRUE,&item,&npc1,&npc2,&treas,Coins,HP,is_weapon);
-            }
+			npc1_action(HP,Coins,&win);
 		}
 		//treasure event
 		if(item.starty == treas.starty-1 and item.startx == treas.startx-7){
-            static double old = 0.0;
-            double cur = getime();
-            if (cur - old > 2.5) {
-			    treasure_action(is_weapon,&win);
-                old = getime();
-	            create_box(&win,TRUE,&item,&npc1,&npc2,&treas,Coins,HP,is_weapon);
-            }
+			treasure_action(is_weapon,&win);
 		}
 		//npc2 event
 		if(item.starty == npc2.starty and item.startx == npc2.startx-7){
-            static double old = 0.0;
-            double cur = getime();
-            if (cur - old > 2.5) {
-			    npc2_action(is_flash,&win,Coins);
-                old = getime();
-	            create_box(&win,TRUE,&item,&npc1,&npc2,&treas,Coins,HP,is_weapon);
-            }
+			npc2_action(is_flash,&win,Coins);
 		}
 		//entrance event
 		if(item.starty == win.starty + win.height - 6 and item.startx == win.startx + win.width - 6){
-			if(is_weapon == false || is_flash == false){
+			if(is_weapon == false){
                 static double old = 0;
                 double cur = getime();
                 if (cur - old > 10) {
-				    init_pair(4, COLOR_MAGENTA, COLOR_BLACK);
-				    attron(COLOR_PAIR(4));
-			    	mvprintw(win.starty + win.height + 2,win.startx,"Player: Felt a monster groaning behind the door................");
-                    sleep(1.5);
-			    	mvprintw(win.starty + win.height + 3,win.startx,"Player: I'm not ready......");
-		    		attroff(COLOR_PAIR(4));
-	    			refresh();
-				    sleep(2);
+    				init_pair(4, COLOR_MAGENTA, COLOR_BLACK);
+	    			attron(COLOR_PAIR(4));
+		    		mvprintw(win.starty + win.height + 2,win.startx,"Please find your sword!");
+			    	attroff(COLOR_PAIR(4));
+				    refresh();
+    				sleep(2.5);
                     old = cur;
                 }
 			}
 			else{
 				//enter boss room
 				res = boss_action(HP,is_flash);
-                next_stage = (res==1) ? true : false;
+				break;
 			}
 		}
 		sleep(0.5);
 	}
-	endwin();			/* End curses mode		  */
 	if(res == 0){
-		cout << "termimate" << endl;
+        endwin();
+        cout << "terminate\n";
+        exit(0);
+        return 0;
 	}
 	else if(res == 1){
-		cout << "win" << endl;
+        /* win */
+        return 1;
 	}
 	else{
-		cout << "lose" << endl;
+        /* lose */
+        return 2;
 	}
 	return 0;
 }
-
 static void init_item_params(ITEM *p_win){
 	p_win->height=5;
 	p_win->width=5;
@@ -1063,11 +903,11 @@ static void create_box(WIN *p_win, bool flag,ITEM *item,NPC1 *npc1 ,NPC2 *npc2,T
 		printw("%d",Coins);
 		attroff(COLOR_PAIR(3));
 		//print store
-		mvprintw(y + 1,x + 35,"##    #   # #       ## ");
-		mvprintw(y + 2,x + 35,"# #  # #  # #        # ");
-		mvprintw(y + 3,x + 35,"# #  ###  # #        # ");
-		mvprintw(y + 4,x + 35,"# #  # #   #         # ");
-		mvprintw(y + 5,x + 35,"##   # #   #        ###");
+		mvprintw(y + 1,x + 35,"---  ---  ---  ---  ---");
+		mvprintw(y + 2,x + 35,"|     |   | |  |    |  ");
+		mvprintw(y + 3,x + 35,"---   |   | |  |    ---");
+		mvprintw(y + 4,x + 35,"  |   |   | |  |    |  ");
+		mvprintw(y + 5,x + 35,"---   |   ---  |    ---");
 		//print boundary
 		mvaddch(y, x, p_win->border.tl);
 		mvaddch(y, x + w - 1, p_win->border.tr);

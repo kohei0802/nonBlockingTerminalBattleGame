@@ -3,7 +3,7 @@
 # 	make -f ../build/Makefile
 #------------------------------
 CFLGAS = -pedantic-errors -std=c++11
-OBJ = test.o test2.o gameutil.o
+OBJ = test.o test2.o gameutil.o menu.o diy.o
 COMP = g++
 
 all: 	StuckinTheDream	
@@ -19,6 +19,12 @@ test2.o : 	test2.cpp
 
 gameutil.o : 	gameutil.cpp
 	g++ $(CFLAGS) -c gameutil.cpp -lncurses
+
+menu.o : 	menu.cpp
+	g++ $(CFLAGS) -c menu.cpp -lncurses
+
+diy.o : 	diy.cpp
+	g++ $(CFLAGS) -c diy.cpp -lncurses
 
 clean:
 	rm -rf *.o StuckinTheDream

@@ -1,3 +1,6 @@
+#ifndef GAMEUTIL_H
+#define GAMEUTIL_H
+
 #include <ncurses.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -6,6 +9,10 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <fstream>
+#include <sstream>
+#include "menu.h"
+
 using namespace std;
 //store win_border
 typedef struct _win_border_struct {
@@ -52,6 +59,8 @@ typedef struct _spine_struct {
 double getime(void);
 void clean_box(WIN *win);
 
-int main2(bool isweap, bool is_flash, int HP);
+int main2(bool isweap, bool is_flash, bool is_upgrade, int HP, int Coins);
 
 void InitRand(void);
+
+#endif

@@ -1,5 +1,6 @@
 //gaming in 160*50
 #include "gameutil.h"
+#include "diy.h"
 using namespace std;
 
 //initialize player's position
@@ -73,16 +74,14 @@ static void npc1_action(int &HP, int &Coins, WIN *win)
 static int ttc (WIN *win) {
     int correct = 1;
     char input;
-    clear();
     timeout(-1);
     curs_set(1);
     nocbreak();
     echo();
-    mvprintw(win->starty, win->startx, "Hi this is tic tac toe");
-    sleep(1.0);
-    mvprintw(win->starty + 1, win->startx, "Type in 10th digit of pi: ");
+    mvprintw(win->starty, win->startx, "Guess the 10th digit of pi!: ");
     refresh();
     input = getch();
+    
     if (input == '3') correct = 1;
     else correct = 0;
 
@@ -92,8 +91,26 @@ static int ttc (WIN *win) {
     noecho();
     clear();
 
+    return ( (correct) ? 1 : 2 );
+
+#if (0)
+    int correct = 1;
+    int res = 0;
+
+    clean_box(win);
+    mvprintw(win->starty, win->startx, "Try to avoid touching the balls for 10 seconds");
+    refresh();
+    sleep(1);
+    clean_box(win);
+    res = minigame(win);
+    clean_box(win);
+
+    correct = (res) ? 1 : 2;
+
     /* 1: succeedded   2: failed */
     return ( (correct) ? 1 : 2 );
+#endif
+
 } 
 
 static int treasure_action(bool &is_upgrade, int &HP, bool &is_weapon,WIN *win)
@@ -119,6 +136,7 @@ static int treasure_action(bool &is_upgrade, int &HP, bool &is_weapon,WIN *win)
             sleep(1.0);
     		attroff(COLOR_PAIR(4));
             /* go into tic-tac-toe */
+            clean_box(win);
             _res = ttc(win);
     		is_upgrade = (_res==1) ? true : false;
     	    return ((_res==1) ? 1 : 2);
@@ -681,13 +699,14 @@ static void create_boss(WIN *p_win,bool flag,ITEM *item,bool is_item,Boss *boss1
 
 
 
-int main2(bool isweap, bool is_flash, int HP)
+int main2(bool is_weapon, bool is_flash, bool is_upgrade, int HP, int Coins)
 {	WIN win;
 	ITEM item;
 	NPC1 npc1;
 	NPC2 npc2;
 	Treas treas;
 	int ch;
+    bool next_stage = true;
 
 	start_color();			/* Start the color functionality */
 	cbreak();			/* Line buffering disabled, Pass on
@@ -706,19 +725,45 @@ int main2(bool isweap, bool is_flash, int HP)
     
     mvhline(0, 0, ' ', 100);
 	printw("STAGE 2 !!!!!!!!");
+    mvprintw(1, 0, "Press [Space] to enter pause menu");
 	
 	refresh();
 	attroff(COLOR_PAIR(1));
 
-	int Coins = 100;
-	bool is_weapon = isweap;
-    bool is_upgrade = false;
 	int res = 0;
 
 	create_box(&win,TRUE,&item,&npc1,&npc2,&treas,Coins,HP,is_weapon, is_upgrade);
 
 	while((ch = getch()) != 'q')
 	{	
+        if (ch == ' ') {
+            int input;
+            clean_box(&win);
+            while (true) {
+                /*[1] Resume [2]Save [3]Quit */
+                input = menu(win.startx, win.startx);
+                if (input=='1') break;
+                if (input=='2') {
+                    if (save(HP, Coins, next_stage, is_weapon, is_flash, is_upgrade)) {
+                        /*Successfully saved */
+                        mvprintw(win.starty+win.height/2, win.startx+win.width/2, "Successfully saved");
+                    }
+                    else {
+                        mvprintw(win.starty+win.height/2, win.startx+win.width/2, "Failed to save");
+                    }
+                }
+                if (input=='3') {
+                    endwin();
+                    system("clear");
+                    printf("Exited game\n");
+                    exit(0);
+                }
+            }
+            clean_box(&win);
+			create_box(&win,TRUE,&item,&npc1,&npc2,&treas,Coins,HP,is_weapon, is_upgrade);
+        }
+
+
 		if(ch == 'f'){
 			ch = getch();
 			while(ch != KEY_LEFT and ch != KEY_RIGHT and ch != KEY_UP and ch != KEY_DOWN){
