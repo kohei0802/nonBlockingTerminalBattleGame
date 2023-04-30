@@ -3,7 +3,7 @@
 
 26/4/2023 Commit (kohei0802)
  - added "srand((unsigned int) getime())" to get real random values
- - added fix to jamming of players around the conversation points
+ - added fix to jamming of players around the conversation points by measuring time
  - added sword's power upgrade
  - added characters 
  - added a mini-challenge to the treasure
