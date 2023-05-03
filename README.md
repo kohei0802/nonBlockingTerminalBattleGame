@@ -83,7 +83,14 @@ We used structures to store all the characters and displays' information
 Mostly defined in test.cpp and test2.cpp
 
 3) Dynamic memory management 
-At the first few lines of test2.cpp:main2(), memory is allocated to text[]
+test.cpp: init_win_params()  line 1057
+test.cpp: init_item_params() line 1040
+test.cpp: init_npc1_params() line 1084
+teset.cpp: init_npc2_params() line 1101
+In these functions, memory is allocated to create structs. 
+We used it here because we want the function to create the struct objects and returns the address 
+back to the calling stack. If we don't allocate memory of them to heap, they will be deleted from stack
+when functions return. 
 
 
 4) File input/output
