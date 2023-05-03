@@ -257,13 +257,16 @@ static int boss_action(int &HP, bool is_flash)
 	refresh();
 	attroff(COLOR_PAIR(4));
 	ch = getch();
+	//wait until y is pressed
 	while(ch != 'y'){
 		ch = getch();
 	}
 	create_boss(&win,true,&item,is_item,&boss1,is_boss1,wave_weapon,HP,boss_HP,&spine_down,&spine_up,&spine_left,&spine_right);
 	while((ch = getch()) != KEY_F(1))
 	{	
+		//control the time period of trap
 		count = (count == 1999) ? 0 : count + 1;
+		//judge the direction and form the trap 
 		if(count % 1000 == 0){
 			int i;
 			i = rand() % 4;
@@ -280,19 +283,25 @@ static int boss_action(int &HP, bool is_flash)
 				spine_right.is_spine = true;
 			}
 		}
+		//control the time period of boss status(stage1 and stage2) 
 		attack = (attack == 2999) ? 0 : count + 1;
 		if(attack % 2000 == 0){
 			boss1.status = 1;
 			lock_attack = 1;
 		}
+		//control decrease rate of HP of player1 
 		lock_HP = (lock_HP != 0 and lock_HP < 50) ? lock_HP + 1 : 0;
+		//controm the movement period of boss
 		lock_boss = (lock_boss == 30) ? 0 : lock_boss + 1;
+		//control the movement period of trap
 		lock_spine = (lock_spine == 7) ? 0 : lock_spine + 1;
+		//control the time of boss attack stage
 		lock_attack = (lock_attack != 0 and lock_attack < 400) ? lock_attack + 1 : 0;
 		if(lock_attack == 0){
 			boss1.status = 0;
 		}
 		wave_weapon = 0;
+		//judge the movement of player1
 		if(ch == 'f'){
 			ch = getch();
 			while(ch != KEY_LEFT and ch != KEY_RIGHT and ch != KEY_UP and ch != KEY_DOWN){
@@ -408,6 +417,7 @@ static int boss_action(int &HP, bool is_flash)
 				}
 				break;
 		}
+		//judge HP minus by boss touch
 		if(abs(item.starty + 2 - (boss1.starty + 2)) < 5 and abs(item.startx + 2 - (boss1.startx + 6)) < 8 and lock_HP == 0){
 			HP = HP - 2;
 			lock_HP = 1;
@@ -453,6 +463,7 @@ static int boss_action(int &HP, bool is_flash)
 			create_boss(&win,true,&item,is_item,&boss1,is_boss1,wave_weapon,HP,boss_HP,&spine_down,&spine_up,&spine_left,&spine_right);
 		}
 		
+		//judge the exist of spine(trap)
 		if(spine_down.is_spine and lock_spine == 0){
 			lock_spine = 1;
 			if(spine_down.starty == 5){
@@ -502,6 +513,7 @@ static int boss_action(int &HP, bool is_flash)
 			create_boss(&win,true,&item,is_item,&boss1,is_boss1,wave_weapon,HP,boss_HP,&spine_down,&spine_up,&spine_left,&spine_right);
 		}
 		
+		//judge the boss_HP minus
 		if((boss1.starty + 2 != item.starty + 2 or boss1.startx + 6 != item.startx + 2) and lock_boss == 0){
 			lock_boss = 1;
 			if(abs(boss1.starty + 2 - (item.starty + 2)) < abs(boss1.startx + 6 - (item.startx + 2))){
@@ -523,10 +535,12 @@ static int boss_action(int &HP, bool is_flash)
 			create_boss(&win,false,&item,is_item,&boss1,is_boss1,wave_weapon,HP,boss_HP,&spine_down,&spine_up,&spine_left,&spine_right);
 			create_boss(&win,true,&item,is_item,&boss1,is_boss1,wave_weapon,HP,boss_HP,&spine_down,&spine_up,&spine_left,&spine_right);
 		}
+		//judge boss die 
 		if(boss_HP <= 0){
 			res = 1;
 			break;
 		}
+		//judge player1 die
 		if(HP <= 0){
 			res = 2;
 			break;
