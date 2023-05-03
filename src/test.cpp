@@ -837,10 +837,18 @@ int main(int argc, char *argv[]) {
     clear();
 
 	/* Initialize the boundary and player parameters and npc1 parameters*/
-	win = *(init_win_params());
-	item = *(init_item_params());
-	npc1 = *(init_npc1_params());
-	npc2 = *(init_npc2_params());
+    WIN* p_win = NULL;
+	ITEM* p_item = NULL;
+	NPC1* p_npc1 = NULL;
+	NPC2* p_npc2 = NULL;
+    p_win = init_win_params();
+    p_item = init_item_params();
+    p_npc1 = init_npc1_params();
+    p_npc2 = init_npc2_params();
+	win = *(p_win);
+	item = *(p_item);
+	npc1 = *(p_npc1);
+	npc2 = *(p_npc2);
 	init_treas_params(&treas);
 	attron(COLOR_PAIR(1));
 	printw("Press 'q' to exit      Press [Space] to enter pause\n");
@@ -856,6 +864,7 @@ int main(int argc, char *argv[]) {
         /* call stage 2's game loop, if next_stage==true */
         if (next_stage) {
             clear();
+            delete p_win; delete p_item; delete p_npc1; delete p_npc2;
             main2(is_weapon, is_flash, is_upgrade, HP, Coins);
             clear();
 			create_box(&win,FALSE,&item,&npc1,&npc2,&treas,Coins,HP,is_weapon);
