@@ -115,6 +115,7 @@ static void npc1_action(int &HP, int &Coins, WIN *win)
 // Para:  "if player possess weapon already", and game windows' information
 // Return:  Void
 //---------------------------
+
 static void treasure_action(bool &is_weapon,WIN *win)
 {
 	init_pair(4, COLOR_MAGENTA, COLOR_BLACK);
@@ -1281,6 +1282,7 @@ static void init_boss_params_boss(Boss *p_win)
 	p_win->startx = 50;
 	p_win->status = 0;
 }
+
 
 static void init_spine_params_boss(Spine *spine_down, Spine *spine_up, Spine *spine_left, Spine *spine_right)
 {
