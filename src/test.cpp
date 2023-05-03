@@ -6,13 +6,13 @@ using namespace std;
 //---------------------------------
 
 //initialize player's position
-static void init_item_params(ITEM *p_win);
+static ITEM* init_item_params(void);
 //initilaize boundary's position
-static void init_win_params(WIN *p_win);
+static WIN* init_win_params(void);
 //initialize NPC1's position
-static void init_npc1_params(NPC1 *p_win);
+static NPC1* init_npc1_params(void);
 //initialize NPC2's position
-static void init_npc2_params(NPC2 *p_win);
+static NPC2* init_npc2_params(void);
 //initialize Treasure's position
 static void init_treas_params(Treas *p_win);
 //printing
@@ -837,10 +837,10 @@ int main(int argc, char *argv[]) {
     clear();
 
 	/* Initialize the boundary and player parameters and npc1 parameters*/
-	init_win_params(&win);
-	init_item_params(&item);
-	init_npc1_params(&npc1);
-	init_npc2_params(&npc2);
+	win = *(init_win_params());
+	item = *(init_item_params());
+	npc1 = *(init_npc1_params());
+	npc2 = *(init_npc2_params());
 	init_treas_params(&treas);
 	attron(COLOR_PAIR(1));
 	printw("Press 'q' to exit      Press [Space] to enter pause\n");
@@ -1028,40 +1028,84 @@ int main(int argc, char *argv[]) {
 	return 0;
 }
 
-static void init_item_params(ITEM *p_win){
-	p_win->height=5;
-	p_win->width=5;
-	p_win->starty=25;
-	p_win->startx=13;
+static ITEM* init_item_params(void){
+    ITEM* item = NULL;
+    item = new ITEM;
+    if (!item) {
+        clear();
+        endwin();
+        system("clear");
+        printf("Failed to allocate memory");
+        exit(0);
+    }
+	item->height=5;
+	item->width=5;
+	item->starty=25;
+	item->startx=13;
+
+    return item;
 }
-static void init_win_params(WIN *p_win)
+static WIN* init_win_params(void)
 {
-	p_win->height = 30;
-	p_win->width = 100;
-	p_win->starty = 5;	
-	p_win->startx = 5;
-	p_win->border.ls = '|';
-	p_win->border.rs = '|';
-	p_win->border.ts = '-';
-	p_win->border.bs = '-';
-	p_win->border.tl = '+';
-	p_win->border.tr = '+';
-	p_win->border.bl = '+';
-	p_win->border.br = '+';
+    WIN *win = NULL;
+    win = new WIN;
+    if (!win) {
+        clear();
+        endwin();
+        system("clear");
+        printf("Failed to allocate memory");
+        exit(0);
+    }
+	win->height = 30;
+	win->width = 100;
+	win->starty = 5;	
+	win->startx = 5;
+	win->border.ls = '|';
+	win->border.rs = '|';
+	win->border.ts = '-';
+	win->border.bs = '-';
+	win->border.tl = '+';
+	win->border.tr = '+';
+	win->border.bl = '+';
+	win->border.br = '+';
+
+    return win;
 }
-static void init_npc1_params(NPC1 *p_win)
+
+static NPC1* init_npc1_params(void)
 {
-	p_win->starty = 15;
-	p_win->startx = 15;
-	p_win->height = 5;
-	p_win->width = 5;
+    NPC1* npc1 = NULL;
+    npc1 = new NPC1;
+    if (!npc1) {
+        clear();
+        endwin();
+        system("clear");
+        printf("Failed to allocate memory");
+        exit(0);
+    }
+	npc1->starty = 15;
+	npc1->startx = 15;
+	npc1->height = 5;
+	npc1->width = 5;
+    return npc1;
 }
-static void init_npc2_params(NPC2 *p_win)
+static NPC2* init_npc2_params(void)
 {
-	p_win->starty = 18;
-	p_win->startx = 80;
-	p_win->height = 5;
-	p_win->width = 5;
+    NPC2* npc2 = NULL;
+    npc2 = new NPC2;
+    if (!npc2) {
+        clear();
+        endwin();
+        system("clear");
+        printf("Failed to allocate memory");
+        exit(0);
+    }
+	npc2->starty = 18;
+	npc2->startx = 80;
+	npc2->height = 5;
+	npc2->width = 5;
+
+    return npc2;
 }
 static void init_treas_params(Treas *p_win)
 {
