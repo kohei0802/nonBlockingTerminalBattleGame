@@ -1,2 +1,3 @@
 1
-78 80 true true true false
+100 100 false true false false
+Do not tamper this file. Game status is stored in a standard format. If it is modified, the game will not work normally

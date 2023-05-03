@@ -1,7 +1,10 @@
 //gaming in 160*50
 #include "gameutil.h"
-#include "diy.h"
 using namespace std;
+
+//-------------------------------
+//Static prototype declaration
+//---------------------------------
 
 //initialize player's position
 static void init_item_params(ITEM *p_win);
@@ -28,6 +31,7 @@ static void init_spine_params_boss(Spine *spine_down, Spine *spine_up, Spine *sp
 static void create_boss(WIN *win,bool flag,ITEM *item,bool is_item,Boss *boss1,bool is_boss1,int wave_weapon,int HP, int boss_HP,Spine *spine_down,Spine *spine_up, Spine *spine_left,Spine *spine_right, bool is_upgrade);
 
 
+/* called when player touches npc1 */
 static void npc1_action(int &HP, int &Coins, WIN *win)
 {
 	int ch;
@@ -70,7 +74,7 @@ static void npc1_action(int &HP, int &Coins, WIN *win)
     clear();
 }
 
-/* called by treasure_action */
+/* a mini challenge to win the upgrade of sword*/
 static int ttc (WIN *win) {
     int correct = 1;
     char input;
@@ -113,6 +117,7 @@ static int ttc (WIN *win) {
 
 } 
 
+/* called when player touches treasure */
 static int treasure_action(bool &is_upgrade, int &HP, bool &is_weapon,WIN *win)
 {
 	init_pair(4, COLOR_MAGENTA, COLOR_BLACK);
@@ -145,6 +150,7 @@ static int treasure_action(bool &is_upgrade, int &HP, bool &is_weapon,WIN *win)
     return 0;
 }
 
+/* called when player touches npc2 */
 static void npc2_action(int &HP,WIN *win,int &Coins)
 {	
     static int count{1};
@@ -211,6 +217,7 @@ static void npc2_action(int &HP,WIN *win,int &Coins)
     noecho();
     clear();
 }
+
 //enter boss room
 static int boss_action(bool is_upgrade, int &HP, bool is_flash)
 {	
@@ -534,7 +541,8 @@ static int boss_action(bool is_upgrade, int &HP, bool is_flash)
 	}
 	return res;
 }
-//print boss room
+
+/* print everything inside the boss stage */
 static void create_boss(WIN *p_win,bool flag,ITEM *item,bool is_item,Boss *boss1,bool is_boss1,int wave_weapon,int HP, int boss_HP,Spine *spine_down,Spine *spine_up,Spine *spine_left,Spine *spine_right, bool is_upgrade)
 {	
 	int i, j;
@@ -699,6 +707,7 @@ static void create_boss(WIN *p_win,bool flag,ITEM *item,bool is_item,Boss *boss1
 
 
 
+/* main game loop for stage 2 */
 int main2(bool is_weapon, bool is_flash, bool is_upgrade, int HP, int Coins)
 {	WIN win;
 	ITEM item;
@@ -971,6 +980,11 @@ static void init_treas_params(Treas *p_win)
 	p_win->height = 5;
 	p_win->width = 7;
 }
+
+
+//-----------------------
+// Def :    Draw everything inside the boss stage
+//--------------------------
 static void create_box(WIN *p_win, bool flag,ITEM *item,NPC1 *npc1 ,NPC2 *npc2,Treas *treas, int Coins, int HP,bool is_weapon, bool is_upgrade)
 {	
 	int i, j;

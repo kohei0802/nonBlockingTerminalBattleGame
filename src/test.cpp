@@ -1,6 +1,9 @@
 #include "gameutil.h"
 using namespace std;
 
+//-------------------------------
+// Static function declaration
+//---------------------------------
 
 //initialize player's position
 static void init_item_params(ITEM *p_win);
@@ -25,6 +28,12 @@ static void init_boss_params_boss(Boss *p_win);
 static void init_spine_params_boss(Spine *spine_down, Spine *spine_up, Spine *spine_left, Spine *spine_right);
 //printing(boss)
 static void create_boss(WIN *win,bool flag,ITEM *item,bool is_item,Boss *boss1,bool is_boss1,int wave_weapon,int HP, int boss_HP,Spine *spine_down,Spine *spine_up, Spine *spine_left,Spine *spine_right);
+
+//----------------------
+// Def: Action performed when player touches npc1
+// Para:  HP, Coins, and game windows' information
+// Return:  Void
+//---------------------------
 
 static void npc1_action(int &HP, int &Coins, WIN *win)
 {
@@ -100,6 +109,12 @@ static void npc1_action(int &HP, int &Coins, WIN *win)
     clear();
 }
 
+
+//----------------------
+// Def: Action performed when player touches treasure
+// Para:  "if player possess weapon already", and game windows' information
+// Return:  Void
+//---------------------------
 static void treasure_action(bool &is_weapon,WIN *win)
 {
 	init_pair(4, COLOR_MAGENTA, COLOR_BLACK);
@@ -125,6 +140,11 @@ static void treasure_action(bool &is_weapon,WIN *win)
     clear();
 }
 
+//----------------------
+// Def: Action performed when player touches npc2
+// Para:  is_flash=>"if player possesses the skill to move quickly", and two more Para
+// Return:  Void
+//---------------------------
 static void npc2_action(bool &is_flash,WIN *win,int &Coins)
 {	
 	init_pair(4, COLOR_MAGENTA, COLOR_BLACK);
@@ -190,7 +210,12 @@ static void npc2_action(bool &is_flash,WIN *win,int &Coins)
 	}
     clear();
 }
-//enter boss room
+
+//----------------------
+// Def: Game loop of fighting boss
+// Para:  HP, is_flash
+// Return: Win or Lose Status
+//---------------------------
 static int boss_action(int &HP, bool is_flash)
 {	
 	timeout(0);
@@ -511,7 +536,12 @@ static int boss_action(int &HP, bool is_flash)
     sleep(2.0);
 	return res;
 }
-//print boss room
+
+//----------------------
+// Def: Draw everything in the boss stage
+// Para:  player's data
+// Return:  Void
+//---------------------------
 static void create_boss(WIN *p_win,bool flag,ITEM *item,bool is_item,Boss *boss1,bool is_boss1,int wave_weapon,int HP, int boss_HP,Spine *spine_down,Spine *spine_up,Spine *spine_left,Spine *spine_right)
 {	
 	int i, j;
@@ -672,6 +702,7 @@ static void create_boss(WIN *p_win,bool flag,ITEM *item,bool is_item,Boss *boss1
 	refresh();
 }
 
+/* Print Title, and Wait for input */
 int Title() {
     int  h, w, key;
  
@@ -722,6 +753,7 @@ key = getch();
 return (key);
 }
 
+/* main */
 int main(int argc, char *argv[]) {	
     InitRand();
 
@@ -742,12 +774,18 @@ int main(int argc, char *argv[]) {
 
 	int HP = 100;
 	int Coins = 100;
+    /* is_weapon == true  :   player carries sword
+     * is_flash == true   :   player moves quicker if 'F' is pressed before arrow keys
+     * is_upgrade == true :   player's sword is purple, upgraded
+     * next_stage == true :   skip to next stage
+     */
     bool next_stage = false;
 	bool is_weapon = false;
-	bool is_flash = false;
+	bool is_flash = false;  
     bool is_upgrade = false;
 	int res = 0;
 
+    /* Title display */
     while (true) {
         int title = Title();
         timeout(0);
@@ -758,8 +796,6 @@ int main(int argc, char *argv[]) {
             exit(0);
         }
 
-        //if (title == 's' or title == 'S') setting();
-        //if (title == 'd' or title == 'D') guide();
         if (title == ' ') {
             clear();
             break;
@@ -814,8 +850,10 @@ int main(int argc, char *argv[]) {
 
 	create_box(&win,TRUE,&item,&npc1,&npc2,&treas,Coins,HP,is_weapon);
 
+    /* main game loop  for stage 1 */
 	while((ch = getch()) != 'q')
 	{	
+        /* call stage 2's game loop, if next_stage==true */
         if (next_stage) {
             clear();
             main2(is_weapon, is_flash, is_upgrade, HP, Coins);
@@ -823,6 +861,7 @@ int main(int argc, char *argv[]) {
 			create_box(&win,FALSE,&item,&npc1,&npc2,&treas,Coins,HP,is_weapon);
         }
 
+        /* enter menu mode */
         if (ch == ' ') {
             int input;
             clean_box(&win);
@@ -850,6 +889,7 @@ int main(int argc, char *argv[]) {
 			create_box(&win,TRUE,&item,&npc1,&npc2,&treas,Coins,HP,is_weapon);
         }
 
+        /* player moves fast */
 		if(ch == 'f'){
 			ch = getch();
 			while(ch != KEY_LEFT and ch != KEY_RIGHT and ch != KEY_UP and ch != KEY_DOWN){
@@ -888,6 +928,7 @@ int main(int argc, char *argv[]) {
 			}
 		}
 
+        /* processed direction keys */
 		switch(ch)
 		{	
 			case KEY_RIGHT:
@@ -1029,6 +1070,11 @@ static void init_treas_params(Treas *p_win)
 	p_win->height = 5;
 	p_win->width = 7;
 }
+
+//---------------------------
+//  Def: Draw everything inside the game pane for stage 1
+//  Para: Every characters data
+//-------------------------------
 static void create_box(WIN *p_win, bool flag,ITEM *item,NPC1 *npc1 ,NPC2 *npc2,Treas *treas, int Coins, int HP,bool is_weapon)
 {	
 	int i, j;

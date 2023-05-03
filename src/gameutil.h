@@ -1,6 +1,9 @@
 #ifndef GAMEUTIL_H
 #define GAMEUTIL_H
 
+//-----------------------------
+// Header Inclusion
+//------------------------------
 #include <ncurses.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -14,6 +17,11 @@
 #include "menu.h"
 
 using namespace std;
+
+//-----------------------------
+// type declaration
+//------------------------------
+
 //store win_border
 typedef struct _win_border_struct {
 	chtype 	ls, rs, ts, bs, 
@@ -56,11 +64,20 @@ typedef struct _spine_struct {
 	bool is_spine;
 }Spine;
 
+//---------------------
+//Prototype declaration
+//------------------------
+
+/* retrieve time value as double */
 double getime(void);
+
+/* overwrites every character inside the game pane with ' ' */
 void clean_box(WIN *win);
 
+/* game loop for the 2nd stage */
 int main2(bool isweap, bool is_flash, bool is_upgrade, int HP, int Coins);
 
+/* Initialize a new seed value for generating real random numbers */
 void InitRand(void);
 
 #endif
