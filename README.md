@@ -129,6 +129,17 @@ Then, execute by
 make -f ../build/Makefile clean
 
 
+ALTERNATIVE METHOD (execute the following files)
+
+../builds/StuckinTheDream-v1.1 (NEW VERSION)
+
+OR
+
+../builds/StuckinTheDream-v1.0 (OLD Version)
+
+
+
+
 
 
 
