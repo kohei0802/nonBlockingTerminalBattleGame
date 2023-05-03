@@ -20,7 +20,7 @@
  - XX
 
 
-Requirement of the game-----------
+##Requirement of the game-----------
 Make sure you zoom out enough so that every component of the game is displayed properly
 
 Make sure you read the comment in /tools/Makefile to learn how to compile the game
