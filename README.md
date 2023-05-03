@@ -96,7 +96,7 @@ test2.cpp => contains main2(), second stage of the game
 gameutil.h, gameutil.cpp => define functions for generating random values, getting time information, etc.
 menu.h, menu.cpp => Provides API for a pausing menu
 
-6) Additional: Multitasking
+6) Additional: Multitasking \n
 I first tried using threading to achieve the multitasking. However, ncurses.h probably doesn't support it well. 
 Therefore, I solved it by using <chrono>.
 I built a function to get time as double. 
