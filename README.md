@@ -59,8 +59,8 @@ In this stage, player needs to kill the monster in order to proceed to the next 
  - Press space key
 
 # How to save the game status (HP, Coins) etc?
-Do step 4) mentioned above
-Press SPACE key, then type '2' key to save it
+ - Do step 4) mentioned above
+ - Press SPACE key, then type '2' key to save it
 
 # Specific components? 
 ## a) Day 1:
@@ -140,10 +140,11 @@ make -f ../build/Makefile clean
 
 # ALTERNATIVE METHOD (execute the following files)
 
-../builds/StuckinTheDream-v1.1 (NEW VERSION)
+../builds/StuckinTheDream-v1.2 (NEW VERSION)
 
 OR
 
+../builds/StuckinTheDream-v1.1 (OLD Version)
 ../builds/StuckinTheDream-v1.0 (OLD Version)
 
 
@@ -161,7 +162,7 @@ OR
  - added "srand((unsigned int) getime())" to get real random values
  - added fix to jamming of players around the conversation points by measuring time
  - added sword's power upgrade
- - added characters 
+ - added NPCs
  - added a mini-challenge to the treasure
  - added a Title display
  - added connection between Stage 1 (Day 1) and Stage 2 (Day 2)
