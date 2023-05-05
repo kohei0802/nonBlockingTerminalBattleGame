@@ -60,6 +60,7 @@ In this stage, player needs to kill the monster in order to proceed to the next 
 
 # How to save the game status (HP, Coins) etc?
 Do step 4) mentioned above
+Press SPACE key, then type '2' key to save it
 
 # Specific components? 
 ## a) Day 1:
